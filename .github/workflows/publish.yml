@@ -29,8 +29,8 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          
-   publish-gpr:
+  
+  publish-gpr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2         
