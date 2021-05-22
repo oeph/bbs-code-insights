@@ -12,7 +12,6 @@
         "prebuild": "npm run clean",
         "prepublish": "npm run build"
     },
-    },
     "keywords": [
         "bitbucket server",
         "code insights",
