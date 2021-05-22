@@ -1,37 +1,41 @@
 import { server, rest } from './mock/server';
 import { CodeInsights } from '../src/index';
 
+const url = process.env.BBS_HOST || 'https://local-test.example.org';
+const accessToken = process.env.BBS_TOKEN || 'super-secret-token';
+const repo = process.env.REPO || 'repo';
+const project = process.env.PROJECT || 'some-project';
+const commitId = process.env.COMMIT_ID || 'e69494baf07d6277393051cabece2ba56bad2a3a';
+
 test('Create codeInsights object', () => {
     const codeInsights = new CodeInsights({
-        url: process.env.BBS_HOST as string,
-        accessToken: process.env.BBS_TOKEN as string
+        url,
+        accessToken
     }, {
-        project: 'MDM',
-        repo: 'madam2',
-        commitId: 'e69494baf07d6277393051cabece2ba56bad2a3a',
+        project,
+        repo,
+        commitId,
         reportKey: 'dev.test.bbs-code-insights'
     });
     expect(codeInsights).not.toBeNull();
 });
 
 test('Send report w/o annotations', async () => {
-    const bbsHost = process.env.BBS_HOST as string;
-    const commitId = 'e69494baf07d6277393051cabece2ba56bad2a3a';
     const reportKey = 'dev.test.bbs-code-insights.wo-annotations';
 
     const codeInsights = new CodeInsights({
-        url: bbsHost,
-        accessToken: process.env.BBS_TOKEN as string
+        url,
+        accessToken
     }, {
-        project: 'MDM',
-        repo: 'madam2',
+        project,
+        repo,
         commitId,
         reportKey
     });
 
     const handler = jest.fn((req, res, ctx) => {
         const authHeader = req.headers.get('Authorization');
-        if (authHeader !== `Bearer ${process.env.BBS_TOKEN}`) {
+        if (authHeader !== `Bearer ${accessToken}`) {
             return res(ctx.status(405));
         }
         return res(ctx.json({
@@ -54,8 +58,8 @@ test('Send report w/o annotations', async () => {
     });
 
     server.use(
-        rest.put(`${bbsHost}/rest/insights/1.0/projects/MDM/` +
-            `repos/madam2/commits/${commitId}/reports/${reportKey}`,
+        rest.put(`${url}/rest/insights/1.0/projects/${project}/` +
+            `repos/${repo}/commits/${commitId}/reports/${reportKey}`,
             handler)
     );
 
@@ -68,23 +72,21 @@ test('Send report w/o annotations', async () => {
 
 
 test('Send report w/ annotations', async () => {
-    const bbsHost = process.env.BBS_HOST as string;
-    const commitId = 'e69494baf07d6277393051cabece2ba56bad2a3a';
     const reportKey = 'dev.test.bbs-code-insights.w-annotations';
 
     const codeInsights = new CodeInsights({
-        url: bbsHost,
-        accessToken: process.env.BBS_TOKEN as string
+        url,
+        accessToken
     }, {
-        project: 'MDM',
-        repo: 'madam2',
+        project,
+        repo,
         commitId,
         reportKey
     });
 
     const reportHandler = jest.fn((req, res, ctx) => {
         const authHeader = req.headers.get('Authorization');
-        if (authHeader !== `Bearer ${process.env.BBS_TOKEN}`) {
+        if (authHeader !== `Bearer ${accessToken}`) {
             return res(ctx.status(405));
         }
         return res(ctx.json({
@@ -107,22 +109,22 @@ test('Send report w/ annotations', async () => {
     });
 
     server.use(
-        rest.put(`${bbsHost}/rest/insights/1.0/projects/MDM/` +
-            `repos/madam2/commits/${commitId}/reports/${reportKey}`,
+        rest.put(`${url}/rest/insights/1.0/projects/${project}/` +
+            `repos/${repo}/commits/${commitId}/reports/${reportKey}`,
             reportHandler)
     );
 
     const annotationsHandler = jest.fn((req, res, ctx) => {
         const authHeader = req.headers.get('Authorization');
-        if (authHeader !== `Bearer ${process.env.BBS_TOKEN}`) {
+        if (authHeader !== `Bearer ${accessToken}`) {
             return res(ctx.status(405));
         }
         return res(ctx.status(204));
     });
 
     server.use(
-        rest.post(`${bbsHost}/rest/insights/1.0/projects/MDM/` +
-            `repos/madam2/commits/${commitId}/reports/${reportKey}/annotations`,
+        rest.post(`${url}/rest/insights/1.0/projects/${project}/` +
+            `repos/${repo}/commits/${commitId}/reports/${reportKey}/annotations`,
             annotationsHandler)
     );
 
