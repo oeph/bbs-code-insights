@@ -40,6 +40,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com" 
           scope: "@oeph"
       - run: npm install
+      - run: echo "registry=https://npm.pkg.github.com/@oeph" >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
