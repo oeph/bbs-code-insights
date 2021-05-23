@@ -4,6 +4,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "dist",
     "strict": true,
     "types": [
       "node",
@@ -12,5 +14,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

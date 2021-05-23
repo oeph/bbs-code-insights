@@ -2,7 +2,8 @@
     "name": "bbs-code-insights",
     "version": "0.0.1",
     "description": "Code Insights for Bitbucket Server",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "test": "jest",
         "lint": "eslint . --ext .ts",
