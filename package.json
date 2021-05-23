@@ -1,6 +1,6 @@
 {
     "name": "bbs-code-insights",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Code Insights for Bitbucket Server",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
