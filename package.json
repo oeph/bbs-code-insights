@@ -29,7 +29,7 @@
     },
     "homepage": "https://github.com/oeph/bbs-code-insights#readme",
     "dependencies": {
-        "axios": "^0.21.1"
+        "axios": "^1.6.0"
     },
     "devDependencies": {
         "@types/jest": "^26.0.23",
